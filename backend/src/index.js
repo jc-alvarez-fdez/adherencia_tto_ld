@@ -15,7 +15,11 @@ dotenv.config();
 const app = express();
 
 // Configura el middleware CORS para que pueda recibir solicitudes de POST, PUT, DELETE, UPDATE, etc.
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: env.CLIENT_URL,
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'UPDATE'],
+}));
 
 //header and populate req.cookies with an object keyed by the cookie names
 app.use(cookieParser());

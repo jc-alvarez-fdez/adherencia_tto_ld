@@ -6,6 +6,7 @@ import RecoveryToken from '../models/recovery_token_model.js';
 import sendEmail from "../utils/email/sendEmail.js";
 import { validationResult } from 'express-validator';
 import { serialize } from 'cookie';
+
 // Creación de funciones personalizadas
 import { esPar, contraseniasCoinciden } from '../utils/utils.js';
 

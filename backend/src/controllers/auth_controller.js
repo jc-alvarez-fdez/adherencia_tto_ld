@@ -6,11 +6,10 @@ import RecoveryToken from '../models/recovery_token_model.js';
 import sendEmail from "../utils/email/sendEmail.js";
 import { validationResult } from 'express-validator';
 import { serialize } from 'cookie';
-
 // Creación de funciones personalizadas
 import { esPar, contraseniasCoinciden } from '../utils/utils.js';
 
-const clientURL = process.env.CLIENT_URL;
+const clietURL = process.env.CLIENT_URL;
 
 export const register = async (req, res) => {
   try {
@@ -22,7 +21,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
    
-    const { email, password, nombre, apellidos } = req.body;
+    const { email, password, name, surname } = req.body;
     // Verificar si ya existe un usuario con el mismo correo electrónico
     const existingPaciente = await Paciente.findOne({ where: { email }});
     if (existingPaciente) {
@@ -33,11 +32,11 @@ export const register = async (req, res) => {
     }
     // Crear un nuevo usuario
     const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
-    const newPaciente = new Paciente({ email, password: hashedPassword, nombre, apellidos, status: 1 });
+    const newPaciente = new Paciente({ email, password: hashedPassword, name, surname, status: 1 });
     await newPaciente.save();
 
     // Generar un token de acceso y lo guardo en un token seguro (httpOnly)
-    const accessToken = jwt.sign({ id_paciente: newPaciente.id_paciente, nombre: newPaciente.nombre }, process.env.JWT_SECRET);
+    const accessToken = jwt.sign({ id_paciente: newPaciente.id_paciente, name: newPaciente.name }, process.env.JWT_SECRET);
     const token = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -91,7 +90,7 @@ export const login = async (req, res) => {
     }
 
     // Generar un token de acceso y lo guardo en un token seguro (httpOnly)
-    const accessToken = jwt.sign({ id_paciente: paciente.id_paciente, nombre: paciente.nombre }, process.env.JWT_SECRET);
+    const accessToken = jwt.sign({ id_paciente: paciente.id_paciente, name: paciente.name }, process.env.JWT_SECRET);
     const token = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -107,8 +106,8 @@ export const login = async (req, res) => {
       message: 'Login OK',
       data: {
         paciente: {
-          nombre: paciente.nombre,
-          apellidos: paciente.apellidos,
+          name: paciente.name,
+          surname: paciente.surname,
           email: paciente.email
         } 
       }
@@ -150,13 +149,13 @@ export const forgotPassword = async (req, res) => {
       created_at: Date.now(),
     }).save();
 
-    const link = `${clientURL}/change-password?token=${resetToken}&id=${paciente.id_paciente}`;
+    const link = `${clietURL}/change-password?token=${resetToken}&id=${paciente.id_paciente}`;
 
     await sendEmail(
       paciente.email,
       "Password Reset Request",
       {
-        nombre: paciente.nombre,
+        name: paciente.name,
         link: link,
       },
       "email/template/requestResetPassword.handlebars"
@@ -231,7 +230,7 @@ export const changePassword = async (req, res) => {
     })
 
     // Generar un token de acceso y lo guardo en un token seguro (httpOnly)
-    const accessToken = jwt.sign({ id_paciente: paciente.id_paciente, nombre: paciente.nombre }, process.env.JWT_SECRET);
+    const accessToken = jwt.sign({ id_paciente: paciente.id_paciente, name: paciente.name }, process.env.JWT_SECRET);
     const token_jwt = serialize('token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -247,8 +246,8 @@ export const changePassword = async (req, res) => {
       message: 'Paciente Detail',
       data: {
         paciente: {
-          nombre: paciente.nombre,
-          apellidos: paciente.apellidos,
+          name: paciente.name,
+          surname: paciente.surname,
           email: paciente.email
         } 
       }

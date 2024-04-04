@@ -2,7 +2,7 @@ import { body } from 'express-validator';
 
 
 export const loginValidator = [
-    body("email").isEmail().withMessage("Introduzca un e-mail válido"),
+    body("email").isEmail().withMessage("Provide valid email"),
     body("password")
         .exists()
         .withMessage("Password is required")

@@ -1,14 +1,11 @@
-// src/middlewares/authenticate_token.js
+// src/middlewares/authenticateToken.js
 import jwt from 'jsonwebtoken';
 import Paciente from '../models/paciente_model.js';
 
 const authenticateToken = async (req, res, next) => {
   try {
     const { cookies } = req;
-    //const accessToken = mfefkuhi345bhf543fdo3k2rjkofn2m345345345;
-
-    const accessToken = cookies.token; //sustituyo para ver si puedo accedeer a los endpoints
-
+    const accessToken = cookies.token;
 
     if (!accessToken) {
       return res.status(401).json({

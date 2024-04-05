@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService } from '@app/_services'
+import { AccountService } from '../../../_services/account/account.service'
 
 @Component({
   selector: 'app-login',
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       });
 
       // show success message after registration
-      if (this.route.snapshot.queryParams.registered) {
+      if (this.route.snapshot.queryParams['registered']) {
         this.success = 'Registration successful';
     }
   }
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       }
 
       this.loading = true;
-      this.accountService.login(this.f.email.value, this.f.password.value)
+      this.accountService.login(this.f['email'].value, this.f['password'].value)
           .pipe(first())
           .subscribe({
               next: () => {

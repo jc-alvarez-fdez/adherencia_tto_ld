@@ -27,8 +27,8 @@ export const registerValidator = [
             }
             return true;
         }),
-    body("name").isString(),
-    body("surname").isString()
+    body("nombre").isString(),
+    body("apellidos").isString()
 ]
 
 export const forgotPasswordValidator = [

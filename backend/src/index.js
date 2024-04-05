@@ -2,7 +2,7 @@
 import express from 'express';
 import cookieParser from "cookie-parser";
 import cors from 'cors'; //para poder hacer puts, y tal desde el cliente al servidor
-import authRoutes from './routes/authRoutes.js';
+import routerAuth from './routes/auth_routes.js';
 import routerPacientes from './routes/paciente_routes.js';
 import routerMedicamentos from './routes/medicamento_routes.js';
 import routerAdministraciones from './routes/administracion_routes.js';
@@ -16,16 +16,17 @@ const app = express();
 
 // Configura el middleware CORS para que pueda recibir solicitudes de POST, PUT, DELETE, UPDATE, etc.
 
-app.use(cors());
-/* app.use(cors({
+/* app.use(cors());*/
+app.use(cors({
   credentials: true,
   origin:  process.env.CLIENT_URL,
   //origin: 'http://localhost:3000',
   methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'UPDATE'],
-})); */
+}));
 
 //header and populate req.cookies with an object keyed by the cookie names
-app.use(cookieParser());
+app.use(cookieParser()); 
+
 
 // Middleware para analizar el cuerpo de las solicitudes con formato JSON
 app.use(express.json());
@@ -37,7 +38,7 @@ await testConnection();
 await insertInitialPacienteData();
 
 // Configurar rutas
-app.use('/auth', authRoutes);
+app.use('/auth', routerAuth);
 app.use('/pacientes', routerPacientes);
 app.use('/medicamentos', routerMedicamentos);
 app.use('/administraciones', routerAdministraciones);

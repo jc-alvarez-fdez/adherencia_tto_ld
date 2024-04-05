@@ -53,7 +53,7 @@ const Medicamento = sequelize.define('02_medicamentos', {
     allowNull: false,
   },
 },{
-  indexes: [{ unique: true, fields: ['email', 'dni'] }],
+  indexes: [{ unique: true, fields: ['num_registro'] }],
   timestamps: false, // Activa la creación automática de createdAt y updatedAt
   //updatedAt: 'updated_at',
   //createdAt: 'created_at'

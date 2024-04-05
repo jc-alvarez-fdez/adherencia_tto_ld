@@ -10,43 +10,43 @@ const Paciente = sequelize.define('01_pacientes', {
   },
   nombre: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   apellidos: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   fecha_nacimiento: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   dni: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   telefono: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   domicilio: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   cp: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   poblacion: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   provincia: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   password: {
     type: DataTypes.STRING,

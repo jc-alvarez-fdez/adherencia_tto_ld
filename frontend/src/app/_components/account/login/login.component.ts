@@ -1,82 +1,57 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-
-import { AccountService } from '../../../_services/account/account.service'
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Paciente } from '../../../_interfaces/paciente.interface';
+import { ErrorService } from '../../../_services/error.service';
+import { PacienteService } from '../../../_services/paciente.service';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink
-  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent implements OnInit {
-  form!: FormGroup;
-  loading = false;
-  submitted = false;
-  error?: string;
-  success?: string;
+  email: string = '';
+  password: string = '';
+  loading: boolean = false;
 
   constructor(
-      private fb: FormBuilder,
-      private route: ActivatedRoute,
-      private router: Router,
-      private accountService: AccountService
-  ) {
-      // redirect to home if already logged in
-      if (this.accountService.userValue) {
-          this.router.navigate(['/']);
-      }
+    private toastr: ToastrService,
+    private _pacienteService: PacienteService,
+    private router: Router,
+    private _errorService: ErrorService) { }
+
+  ngOnInit(): void {
   }
 
-  ngOnInit() {
-      this.form = this.fb.group({
-          email: ['', Validators.required],
-          password: ['', Validators.required]
-      });
+  login() {
 
-      // show success message after registration
-      if (this.route.snapshot.queryParams['registered']) {
-        this.success = 'Registration successful';
+    // Validamos que el usuario ingrese datos
+    if (this.email == '' || this.password == '') {
+      this.toastr.error('Todos los campos son obligatorios', 'Error');
+      return
     }
-  }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.form.controls; }
+    // Creamos el body
+    const paciente: Paciente = {
+      email: this.email,
+      password: this.password
+    }
 
-  onSubmit() {
-      this.submitted = true;
-
-      // reset alert on submit
-      this.error = '';
-      this.success = '';
-
-      // stop here if form is invalid
-      if (this.form.invalid) {
-          return;
+    this.loading = true;
+    this._pacienteService.login(paciente).subscribe({
+      next: (token) => {
+        localStorage.setItem('token', token);
+        this.router.navigate(['/dashboard'])
+      },
+      error: (e: HttpErrorResponse) => {
+        this._errorService.msjError(e);
+        this.loading = false
       }
-
-      this.loading = true;
-      this.accountService.login(this.f['email'].value, this.f['password'].value)
-          .pipe(first())
-          .subscribe({
-              next: () => {
-                  // get return url from query parameters or default to home page
-                  const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                  this.router.navigateByUrl(returnUrl);
-              },
-              error: error => {
-                  this.error = error;
-                  this.loading = false;
-              }
-          });
+    })
   }
+
+
+
 }

@@ -1,77 +1,61 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-
-import { AccountService } from '../../../_services/account/account.service'
-
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Paciente } from '../../../_interfaces/paciente.interface';
+import { ErrorService } from '../../../_services/error.service';
+import { PacienteService } from '../../../_services/paciente.service';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [
-  CommonModule,
-  ReactiveFormsModule,
-  RouterLink
-  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.css']
 })
+export class SignInComponent implements OnInit {
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  loading: boolean = false;
 
+  constructor(private toastr: ToastrService,
+    private _pacienteService: PacienteService,
+    private router: Router,
+    private _errorService: ErrorService) { }
 
-export class RegisterComponent implements OnInit {
-  form!: FormGroup;
-  loading = false;
-  submitted = false;
-  error?: string;
-
-  constructor(
-      private fb: FormBuilder,
-      private route: ActivatedRoute,
-      private router: Router,
-      private accountService: AccountService
-  ) {
-      // redirect to home if already logged in
-      if (this.accountService.userValue) {
-          this.router.navigate(['/']);
-      }
+  ngOnInit(): void {
   }
 
-  ngOnInit() {
-      this.form = this.fb.group({
-          firstName: ['', Validators.required],
-          lastName: ['', Validators.required],
-          email: ['', Validators.required],
-          password: ['', [Validators.required, Validators.minLength(8)]]
-      });
-  }
+  addPaciente() {
 
-  // convenience getter for easy access to form fields
-  get f() { return this.form.controls; }
+    // Validamos que el usuario ingrese valores
+    if (this.email == '' || this.password == '' || this.confirmPassword == '') {
+      this.toastr.error('Todos los campos son obligatorios', 'Error');
+      return;
+    }
 
-  onSubmit() {
-      this.submitted = true;
+    // Validamos que las password sean iguales
+    if (this.password != this.confirmPassword) {
+      this.toastr.error('Las passwords ingresadas son distintas', 'Error');
+      return;
+    }
 
-      // reset alert on submit
-      this.error = '';
+    // Creamos el objeto
+    const paciente: Paciente = {
+      email: this.email,
+      password: this.password
+    }
 
-      // stop here if form is invalid
-      if (this.form.invalid) {
-          return;
+    this.loading = true;
+    this._pacienteService.signIn(paciente).subscribe({
+      next: (v) => {
+        this.loading = false;
+        this.toastr.success(`El usuario ${this.email} fue registrado con exito`, 'Usuario registrado');
+        this.router.navigate(['/login']);
+      },
+      error: (e: HttpErrorResponse) => {
+        this.loading = false;
+        this._errorService.msjError(e);
       }
-
-      this.loading = true;
-      this.accountService.register(this.form.value)
-          .pipe(first())
-          .subscribe({
-              next: () => {
-                  this.router.navigate(['/account/login'], { queryParams: { registered: true }});
-              },
-              error: error => {
-                  this.error = error;
-                  this.loading = false;
-              }
-          });
+    })
   }
 }

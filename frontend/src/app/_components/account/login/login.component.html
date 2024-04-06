@@ -1,4 +1,27 @@
+
 <div class="wrapper">
+  <div class="body">
+    <img src="../../../../assets/img/login.png" alt="login">
+    <h1>Acceder</h1>
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" placeholder="name@example.com">
+      <label>Email</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="password" class="form-control" placeholder="password">
+      <label>Contraseña</label>
+    </div>
+    <div class="d-grid gap-2">
+      <button [routerLink]="['/medicamentos']" routerLinkActive="router-link-active"  class="btn btn-primary" type="button">Aceptar</button>
+    </div>
+
+    <p class="mt-3">Si no dispone de una cuenta <br><a [routerLink]="['/account/register']" routerLinkActive="router-link-active" >regístrese aquí</a></p>
+</div>
+
+
+
+
+<!-- <div class="wrapper">
     <div *ngIf="!loading" class="body">
         <img class="logo" src="../../../assets/img/login.png" alt="img login">
         <h3 class="mb-2">Login</h3>
@@ -16,4 +39,4 @@
         <p class="mt-3">No tienes cuenta? <a routerLink="/signIn">Registrar</a></p>
     </div>
     <app-spinner *ngIf="loading"></app-spinner>
-</div>
+</div> -->

@@ -1,3 +1,4 @@
+//import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -5,11 +6,17 @@ import { ToastrService } from 'ngx-toastr';
 import { Paciente } from '../../../_interfaces/paciente.interface';
 import { ErrorService } from '../../../_services/error.service';
 import { PacienteService } from '../../../_services/paciente.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    //CommonModule,
+    RouterModule
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
   email: string = '';

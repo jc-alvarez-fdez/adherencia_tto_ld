@@ -1,6 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ToastrService } from 'ngx-toastr';
 import { Paciente } from '../../../_interfaces/paciente.interface';
 import { ErrorService } from '../../../_services/error.service';
@@ -8,10 +11,16 @@ import { PacienteService } from '../../../_services/paciente.service';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrl: './register.component.scss'
 })
-export class SignInComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';

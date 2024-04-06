@@ -16,13 +16,15 @@ const app = express();
 
 // Configura el middleware CORS para que pueda recibir solicitudes de POST, PUT, DELETE, UPDATE, etc.
 
-/* app.use(cors());*/
+app.use(cors());
+/*
 app.use(cors({
   credentials: true,
   origin:  process.env.CLIENT_URL,
   //origin: 'http://localhost:3000',
   methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'UPDATE'],
 }));
+*/
 
 //header and populate req.cookies with an object keyed by the cookie names
 app.use(cookieParser()); 

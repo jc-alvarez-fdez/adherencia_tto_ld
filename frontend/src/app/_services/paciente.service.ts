@@ -13,11 +13,11 @@ export class PacienteService {
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/pacientes'
+    this.myApiUrl = 'auth/'
    }
 
-   signIn(paciente: Paciente): Observable<any> {
-    return this.http.post(`${this.myAppUrl}${this.myApiUrl}`, paciente);
+   register(paciente: Paciente): Observable<any> {
+    return this.http.post(`${this.myAppUrl}${this.myApiUrl}/register`, paciente);
    }
 
    login(paciente: Paciente): Observable<string> {

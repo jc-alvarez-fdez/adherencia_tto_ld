@@ -77,7 +77,7 @@ export const login = async (req, res) => {
     if (!paciente) {
       return res.status(401).json({
         code: -25,
-        message: 'paciente No exist'
+        message: 'Ese paciente no existe'
       });
     }
 

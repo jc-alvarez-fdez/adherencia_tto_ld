@@ -15,10 +15,10 @@ export const routes: Routes = [
   { path: 'home',
   component: HomeComponent
   },
-  { path: 'account/login',
+  { path: 'auth/login',
     component: LoginComponent
   },
-  { path: 'account/register',
+  { path: 'auth/register',
     component: RegisterComponent
   },
   { path: 'dashboard',

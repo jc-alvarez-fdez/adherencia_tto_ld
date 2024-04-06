@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-spinner',
   standalone: true,
   templateUrl: './spinner.component.html',
-  styleUrl: './spinner.component.css'
+  styleUrl: './spinner.component.scss'
 })
 export class SpinnerComponent implements OnInit {
 

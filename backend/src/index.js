@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from 'cors'; //para poder hacer puts, y tal desde el cliente al servidor
 import routerAuth from './routes/auth_routes.js';
 import routerPacientes from './routes/paciente_routes.js';
-import routerMedicamentos from './routes/medicamento_routes.js';
+import routerMisMedicamentos from './routes/mi_medicamento_routes.js';
 import routerAdministraciones from './routes/administracion_routes.js';
 //import bookRoutes from './routes/bookRoutes.js';
 import { testConnection } from './db.js';
@@ -42,7 +42,8 @@ await insertInitialPacienteData();
 // Configurar rutas
 app.use('/auth', routerAuth);
 app.use('/pacientes', routerPacientes);
-app.use('/medicamentos', routerMedicamentos);
+//app.use('/medicamentos', routerMedicamentos);
+app.use('/mis_medicamentos', routerMisMedicamentos)
 app.use('/administraciones', routerAdministraciones);
 //app.use('/book', bookRoutes);
 

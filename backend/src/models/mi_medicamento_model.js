@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
 
-const Medicamento = sequelize.define('02_medicamentos', {
+const MiMedicamento = sequelize.define('02_medicamentos', {
 
   id_medicamento: {
     type: DataTypes.INTEGER.UNSIGNED,
@@ -59,4 +59,4 @@ const Medicamento = sequelize.define('02_medicamentos', {
   //createdAt: 'created_at'
 });
 
-export default Medicamento;
+export default MiMedicamento;

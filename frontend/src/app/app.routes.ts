@@ -5,6 +5,7 @@ import { LoginComponent } from './_components/account/login/login.component';
 import { RegisterComponent } from './_components/account/register/register.component';
 import { MedicamentosComponent } from './_pages/medicamentos/medicamentos.component';
 import { HomeComponent } from './_pages/home/home.component';
+import { MisMedicamentosComponent } from './_pages/mis-medicamentos/mis-medicamentos.component';
 
 export const routes: Routes = [
 
@@ -26,6 +27,9 @@ export const routes: Routes = [
 },
   { path: 'medicamentos',
   component: MedicamentosComponent
+  },
+  { path: 'mis_medicamentos',
+  component: MisMedicamentosComponent
   },
   { path: '**',
   redirectTo: 'account/login',

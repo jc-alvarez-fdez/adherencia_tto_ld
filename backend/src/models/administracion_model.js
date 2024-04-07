@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db.js';
-import Medicamento from './medicamento_model.js';
+import MiMedicamento from './mi_medicamento_model.js';
 import Paciente from './paciente_model.js';
 
 
@@ -82,8 +82,8 @@ const Administracion = sequelize.define('03_administraciones', {
   //createdAt: 'created_at'
 });
 
-Medicamento.hasMany(Administracion, { foreignKey: 'medicamento_id' });
-Administracion.belongsTo(Medicamento, { foreignKey: 'medicamento_id' });
+MiMedicamento.hasMany(Administracion, { foreignKey: 'medicamento_id' });
+Administracion.belongsTo(MiMedicamento, { foreignKey: 'medicamento_id' });
 
 Paciente.hasMany(Administracion, { foreignKey: 'paciente_id' });
 Administracion.belongsTo(Paciente, { foreignKey: 'paciente_id' });

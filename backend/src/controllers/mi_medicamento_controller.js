@@ -1,7 +1,7 @@
-import Medicamento from '../models/medicamento_model.js'
+import MiMedicamento from '../models/mi_medicamento_model.js'
 import { validationResult } from 'express-validator';
 
-export const getMedicamentos = async (req, res) => {
+export const getMisMedicamentos = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -11,13 +11,13 @@ export const getMedicamentos = async (req, res) => {
     }
 
     // Obtener todos los medicamentos de la base de datos
-    const medicamentos = await Medicamento.findAll();
+    const misMedicamentos = await MiMedicamento.findAll();
 
     // Enviar una respuesta al cliente
     res.status(200).json({
       code: 1,
       message: 'Medicamentos List',
-      data: medicamentos
+      data: misMedicamentos
     });
   } catch (error) {
     console.error(error);
@@ -28,7 +28,7 @@ export const getMedicamentos = async (req, res) => {
   }
 };
 
-export const getMedicamentoById = async (req, res) => {
+export const getMiMedicamentoById = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -40,8 +40,8 @@ export const getMedicamentoById = async (req, res) => {
     const { id } = req.params;
 
     // Buscar un usuario por su ID en la base de datos
-    const medicamento = await Medicamento.findByPk(id);
-    if (!medicamento) {
+    const miMedicamento = await MiMedicamento.findByPk(id);
+    if (!miMedicamento) {
       return res.status(404).json({
         code: -6,
         message: 'Medicamento no encontrado'
@@ -52,7 +52,7 @@ export const getMedicamentoById = async (req, res) => {
     res.status(200).json({
       code: 1,
       message: 'Medicamento Detail',
-      data: medicamento
+      data: miMedicamento
     });
   } catch (error) {
     console.error(error);
@@ -63,7 +63,7 @@ export const getMedicamentoById = async (req, res) => {
   }
 };
 
-export const addMedicamento = async (req, res) => {
+export const addMiMedicamento = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -73,9 +73,9 @@ export const addMedicamento = async (req, res) => {
     }
 
     const { body } = req;
-    let newMedicamento;
+    let newMiMedicamento;
     try {
-      newMedicamento = await Medicamento.create({ body });
+      newMiMedicamento = await MiMedicamento.create({ body });
     } catch (error) {
       // Si hay un error de duplicación de clave única (por ejemplo, título duplicado)
       if (error.name === 'SequelizeUniqueConstraintError') {
@@ -86,7 +86,7 @@ export const addMedicamento = async (req, res) => {
       }
     }
 
-    if (!newMedicamento) {
+    if (!newMiMedicamento) {
       return res.status(404).json({
         code: -6,
         message: 'Error al añadir un medicamento'
@@ -97,7 +97,7 @@ export const addMedicamento = async (req, res) => {
     res.status(200).json({
       code: 1,
       message: 'Medicamento añadido correctamente',
-      data: newMedicamento
+      data: newMiMedicamento
     });
   } catch (error) {
     console.error(error);
@@ -108,7 +108,7 @@ export const addMedicamento = async (req, res) => {
   }
 };
 
-export const updateMedicamento = async (req, res) => {
+export const updateMiMedicamento = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -121,8 +121,8 @@ export const updateMedicamento = async (req, res) => {
     const { body } = req;
 
     // Buscar un usuario por su ID en la base de datos
-    const medicamento = await Medicamento.findByPk(id);
-    if (!medicamento) {
+    const miMedicamento = await MiMedicamento.findByPk(id);
+    if (!miMedicamento) {
       return res.status(404).json({
         code: -3,
         message: 'Medicamento no encontrado'
@@ -130,13 +130,13 @@ export const updateMedicamento = async (req, res) => {
     }
 
     // Actualizar los datos del medicamento
-    await medicamento.update(body);
+    await miMedicamento.update(body);
 
     // Enviar una respuesta al cliente
     res.status(200).json({
       code: 1,
       message: 'El medicamento se ha actualizado',
-      data: medicamento
+      data: miMedicamento
     });
   } catch (error) {
     console.error(error);
@@ -147,7 +147,7 @@ export const updateMedicamento = async (req, res) => {
   }
 };
 
-export const deleteMedicamento = async (req, res) => {
+export const deleteMiMedicamento = async (req, res) => {
   try {
     const errors = validationResult(req);
 
@@ -159,10 +159,10 @@ export const deleteMedicamento = async (req, res) => {
     const { id } = req.params;
 
     // Buscar un medicamento por su ID en la base de datos y eliminarlo
-    const deletedMedicamento = await Medicamento.destroy({ where: { id_medicamento: id } });
+    const deletedMiMedicamento = await MiMedicamento.destroy({ where: { id_medicamento: id } });
 
     // Verificar si el medicamento fue encontrado y eliminado
-    if (!deletedMedicamento) {
+    if (!deletedMiMedicamento) {
       return res.status(404).json({
         code: -100,
         message: 'Medicamento no encontrado'
